@@ -140,8 +140,45 @@ namespace StreamsDemo
 
         public static int InMemoryByBlockCopy(string sourcePath, string destinationPath)
         {
-            // TODO: Use InMemoryByByteCopy method's approach
-            throw new NotImplementedException();
+            InputValidation(sourcePath, destinationPath);
+
+            StreamWriter streamWriter = null;
+            string sourceText = "";
+            int bytePortion = 1024;
+            int byteCount = 0;
+
+            using (StreamReader streamReader = new StreamReader(sourcePath, Encoding.ASCII))
+            {
+                sourceText = streamReader.ReadToEnd();
+            }
+
+            byte[] sourceBytes = Encoding.UTF8.GetBytes(sourceText);
+            byte[] destinationBytes = new byte[bytePortion];
+
+            try
+            {
+                streamWriter = new StreamWriter(destinationPath);
+                using (Stream memoryStream = new MemoryStream(sourceBytes))
+                {
+                    while (byteCount < sourceBytes.Length)
+                    {
+                        memoryStream.Read(destinationBytes, 0, bytePortion);
+                        char[] destinationText = Encoding.ASCII.GetChars(destinationBytes);
+                        streamWriter.Write(destinationText);
+                        byteCount += bytePortion;
+                    }
+                }
+            }
+
+            finally
+            {
+                if (streamWriter != null)
+                {
+                    streamWriter.Dispose();
+                }
+            }
+            
+           return byteCount;
         }
 
         #endregion
