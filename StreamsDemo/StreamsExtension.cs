@@ -249,7 +249,35 @@ namespace StreamsDemo
 
         public static bool IsContentEquals(string sourcePath, string destinationPath)
         {
-            throw new NotImplementedException();
+            InputValidation(sourcePath, destinationPath);            
+
+            if (!File.Exists(destinationPath))
+            {
+                throw new ArgumentException($"File does not exists for path {destinationPath}.");
+            }
+
+            bool result = true;
+
+            using (StreamReader sourceStream = new StreamReader(sourcePath))
+            using (StreamReader destinationStream = new StreamReader(destinationPath))
+            {
+                while(result && !sourceStream.EndOfStream && !destinationStream.EndOfStream )
+                {
+                    string sourceLine = sourceStream.ReadLine();
+                    string destinationLine = destinationStream.ReadLine();
+
+                    if (sourceLine.Length != destinationLine.Length)
+                    {
+                        result = false;
+                    }
+                    else
+                    {
+                        result = sourceLine == destinationLine;
+                    }
+                }
+            }
+
+            return result;
         }
 
         #endregion
