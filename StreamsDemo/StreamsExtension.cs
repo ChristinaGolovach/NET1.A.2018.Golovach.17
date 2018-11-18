@@ -19,7 +19,39 @@ namespace StreamsDemo
 
         public static int ByByteCopy(string sourcePath, string destinationPath)
         {
-            throw new NotImplementedException();
+            if (!File.Exists(sourcePath))
+            {
+                throw new ArgumentException($"File does not exists for path {sourcePath}.");
+            }
+            else
+            {
+                Stream destinationStream = null;
+                int byteCount = 0;
+                int i = 0;
+                try
+                {
+                    destinationStream = new FileStream(destinationPath, FileMode.Create);
+
+                    using (Stream sourceStream = new FileStream(sourcePath, FileMode.Open))
+                    {
+                        while (i++ < sourceStream.Length )
+                        {
+                            byte writedByte = (byte)sourceStream.ReadByte();
+                            destinationStream.WriteByte(writedByte);
+                            byteCount++;
+                        }
+                    }
+                }
+                finally
+                {
+                    if (destinationStream != null)
+                    {
+                        destinationStream.Dispose();
+                    }
+                }
+
+                return byteCount;
+            }            
         }
 
         #endregion
@@ -49,6 +81,7 @@ namespace StreamsDemo
 
         public static int ByBlockCopy(string sourcePath, string destinationPath)
         {
+
             throw new NotImplementedException();
         }
 
