@@ -19,39 +19,34 @@ namespace StreamsDemo
 
         public static int ByByteCopy(string sourcePath, string destinationPath)
         {
-            if (!File.Exists(sourcePath))
+            InputValidation(sourcePath, destinationPath);
+
+            Stream destinationStream = null;
+            int byteCount = 0;
+            int i = 0;
+            try
             {
-                throw new ArgumentException($"File does not exists for path {sourcePath}.");
+                destinationStream = new FileStream(destinationPath, FileMode.Create);
+
+                using (Stream sourceStream = new FileStream(sourcePath, FileMode.Open))
+                {
+                    while (i++ < sourceStream.Length)
+                    {
+                        byte writedByte = (byte)sourceStream.ReadByte();
+                        destinationStream.WriteByte(writedByte);
+                        byteCount++;
+                    }
+                }
             }
-            else
+            finally
             {
-                Stream destinationStream = null;
-                int byteCount = 0;
-                int i = 0;
-                try
+                if (destinationStream != null)
                 {
-                    destinationStream = new FileStream(destinationPath, FileMode.Create);
-
-                    using (Stream sourceStream = new FileStream(sourcePath, FileMode.Open))
-                    {
-                        while (i++ < sourceStream.Length )
-                        {
-                            byte writedByte = (byte)sourceStream.ReadByte();
-                            destinationStream.WriteByte(writedByte);
-                            byteCount++;
-                        }
-                    }
+                    destinationStream.Dispose();
                 }
-                finally
-                {
-                    if (destinationStream != null)
-                    {
-                        destinationStream.Dispose();
-                    }
-                }
+            }
 
-                return byteCount;
-            }            
+            return byteCount;
         }
 
         #endregion
@@ -60,19 +55,45 @@ namespace StreamsDemo
 
         public static int InMemoryByByteCopy(string sourcePath, string destinationPath)
         {
+            InputValidation(sourcePath, destinationPath);
+
+            string sourceText = "";
+            int byteCount = 0;
+
             // TODO: step 1. Use StreamReader to read entire file in string
+            using (StreamReader streamReader = new StreamReader(sourcePath, Encoding.ASCII))
+            {
+                sourceText = streamReader.ReadToEnd();          
+            }
 
             // TODO: step 2. Create byte array on base string content - use  System.Text.Encoding class
+            byte[] sourceBytes = Encoding.UTF8.GetBytes(sourceText);
+            byte[] destinationBytes = new byte[sourceBytes.Length];
 
             // TODO: step 3. Use MemoryStream instance to read from byte array (from step 2)
-
             // TODO: step 4. Use MemoryStream instance (from step 3) to write it content in new byte array
+            using (Stream memoryStream = new MemoryStream(sourceBytes))
+            {
+                for (int i = 0; i < sourceBytes.Length; i++)
+                {
+                    destinationBytes[i] = (byte)memoryStream.ReadByte();
+                }
+            }
 
             // TODO: step 5. Use Encoding class instance (from step 2) to create char array on byte array content
+            char[] destinationText = Encoding.ASCII.GetChars(destinationBytes);
 
             // TODO: step 6. Use StreamWriter here to write char array content in new file
+            using (StreamWriter streamWriter = new StreamWriter(destinationPath))
+            {
+                for (int i = 0; i < destinationText.Length; i++)
+                {
+                    streamWriter.Write(destinationText[i]);
+                    byteCount++;
+                }
+            }
 
-            throw new NotImplementedException();
+            return byteCount;
         }
 
         #endregion
@@ -132,7 +153,20 @@ namespace StreamsDemo
 
         private static void InputValidation(string sourcePath, string destinationPath)
         {
+            if (string.IsNullOrEmpty(sourcePath))
+            {
+                throw new ArgumentException($"The {nameof(sourcePath)} can not be null or empty.");
+            }
 
+            if (string.IsNullOrEmpty(destinationPath))
+            {
+                throw new ArgumentException($"The {nameof(destinationPath)} can not be null or empty.");
+            }
+
+            if (!File.Exists(sourcePath))
+            {
+                throw new ArgumentException($"File does not exists for path {sourcePath}.");
+            }
         }
 
         #endregion
