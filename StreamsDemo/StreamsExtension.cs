@@ -17,6 +17,23 @@ namespace StreamsDemo
 
         #region  Implement by byte copy logic using class FileStream as a backing store stream .
 
+        /// <summary>
+        /// Performs byte-by-copy data from one file to another using FileStream.
+        /// </summary>
+        /// <param name="sourcePath">
+        /// The source file path.
+        /// </param>
+        /// <param name="destinationPath">
+        /// The destination file path.
+        /// </param>
+        /// <returns>
+        /// The count of bytes written.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Trown when <paramref name="sourcePath"/> is null or empty.
+        /// Trown when <paramref name="destinationPath"/> is null or empty.
+        /// Trown when file does not exists for <paramref name="sourcePath"/>.
+        /// </exception>
         public static int ByByteCopy(string sourcePath, string destinationPath)
         {
             InputValidation(sourcePath, destinationPath);
@@ -53,6 +70,23 @@ namespace StreamsDemo
 
         #region Implement by byte copy logic using class MemoryStream as a backing store stream.
 
+        /// <summary>
+        /// Performs byte-by-copy data from one file to another using MemoryStream.
+        /// </summary>
+        /// <param name="sourcePath">
+        /// The source file path.
+        /// </param>
+        /// <param name="destinationPath">
+        /// The destination file path.
+        /// </param>
+        /// <returns>
+        /// The count of bytes written.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Trown when <paramref name="sourcePath"/> is null or empty.
+        /// Trown when <paramref name="destinationPath"/> is null or empty.
+        /// Trown when file does not exists for <paramref name="sourcePath"/>.
+        /// </exception>
         public static int InMemoryByByteCopy(string sourcePath, string destinationPath)
         {
             InputValidation(sourcePath, destinationPath);
@@ -100,6 +134,23 @@ namespace StreamsDemo
 
         #region Implement by block copy logic using FileStream buffer.
 
+        /// <summary>
+        /// Performs copy data from one file to another using FileStream by block copy logic.
+        /// </summary>
+        /// <param name="sourcePath">
+        /// The source file path.
+        /// </param>
+        /// <param name="destinationPath">
+        /// The destination file path.
+        /// </param>
+        /// <returns>
+        /// The count of bytes written.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Trown when <paramref name="sourcePath"/> is null or empty.
+        /// Trown when <paramref name="destinationPath"/> is null or empty.
+        /// Trown when file does not exists for <paramref name="sourcePath"/>.
+        /// </exception>
         public static int ByBlockCopy(string sourcePath, string destinationPath)
         {
             InputValidation(sourcePath, destinationPath);
@@ -137,6 +188,23 @@ namespace StreamsDemo
 
         #region Implement by block copy logic using MemoryStream.
 
+        /// <summary>
+        /// Performs copy data from one file to another using MemoryStream by block copy logic.
+        /// </summary>
+        /// <param name="sourcePath">
+        /// The source file path.
+        /// </param>
+        /// <param name="destinationPath">
+        /// The destination file path.
+        /// </param>
+        /// <returns>
+        /// The count of bytes written.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Trown when <paramref name="sourcePath"/> is null or empty.
+        /// Trown when <paramref name="destinationPath"/> is null or empty.
+        /// Trown when file does not exists for <paramref name="sourcePath"/>.
+        /// </exception>
         public static int InMemoryByBlockCopy(string sourcePath, string destinationPath)
         {
             InputValidation(sourcePath, destinationPath);
@@ -184,6 +252,23 @@ namespace StreamsDemo
 
         #region Implement by block copy logic using class-decorator BufferedStream.
 
+        /// <summary>
+        /// Performs copy data from one file to another using BufferedStream by block copy logic.
+        /// </summary>
+        /// <param name="sourcePath">
+        /// The source file path.
+        /// </param>
+        /// <param name="destinationPath">
+        /// The destination file path.
+        /// </param>
+        /// <returns>
+        /// The count of bytes written.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Trown when <paramref name="sourcePath"/> is null or empty.
+        /// Trown when <paramref name="destinationPath"/> is null or empty.
+        /// Trown when file does not exists for <paramref name="sourcePath"/>.
+        /// </exception>
         public static int BufferedCopy(string sourcePath, string destinationPath)
         {
             InputValidation(sourcePath, destinationPath);
@@ -222,6 +307,23 @@ namespace StreamsDemo
 
         #region Implement by line copy logic using FileStream and classes text-adapters StreamReader/StreamWriter
 
+        /// <summary>
+        /// Performs copy data from one file to another using StreamReader/StreamWriter by line copy logic
+        /// </summary>
+        /// <param name="sourcePath">
+        /// The source file path.
+        /// </param>
+        /// <param name="destinationPath">
+        /// The destination file path.
+        /// </param>
+        /// <returns>
+        /// The count of bytes written.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Trown when <paramref name="sourcePath"/> is null or empty.
+        /// Trown when <paramref name="destinationPath"/> is null or empty.
+        /// Trown when file does not exists for <paramref name="sourcePath"/>.
+        /// </exception>
         public static int ByLineCopy(string sourcePath, string destinationPath)
         {
             InputValidation(sourcePath, destinationPath);
@@ -247,6 +349,24 @@ namespace StreamsDemo
 
         #region  Implement content comparison logic of two files 
 
+        /// <summary>
+        /// Performs content comparison of two files.
+        /// </summary>
+        /// <param name="sourcePath">
+        /// The source file path.
+        /// </param>
+        /// <param name="destinationPath">
+        /// The destination file path.
+        /// </param>
+        /// <returns>
+        /// True - if contents of files are equal, otherwise - false.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Trown when <paramref name="sourcePath"/> is null or empty.
+        /// Trown when <paramref name="destinationPath"/> is null or empty.
+        /// Trown when file does not exists for <paramref name="sourcePath"/>.
+        /// Trown when file does not exists for <paramref name="destinationPath"/>.
+        /// </exception>
         public static bool IsContentEquals(string sourcePath, string destinationPath)
         {
             InputValidation(sourcePath, destinationPath);            
