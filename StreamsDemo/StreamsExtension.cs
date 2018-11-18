@@ -67,7 +67,7 @@ namespace StreamsDemo
             }
 
             // TODO: step 2. Create byte array on base string content - use  System.Text.Encoding class
-            byte[] sourceBytes = Encoding.UTF8.GetBytes(sourceText);
+            byte[] sourceBytes = Encoding.ASCII.GetBytes(sourceText);
             byte[] destinationBytes = new byte[sourceBytes.Length];
 
             // TODO: step 3. Use MemoryStream instance to read from byte array (from step 2)
@@ -224,7 +224,23 @@ namespace StreamsDemo
 
         public static int ByLineCopy(string sourcePath, string destinationPath)
         {
-            throw new NotImplementedException();
+            InputValidation(sourcePath, destinationPath);
+            int byteCount = 0;
+
+            using (Stream sourceStream = new FileStream(sourcePath, FileMode.Open))
+            using (TextReader sourceTextReader = new StreamReader(sourceStream))
+            using (TextWriter destination = new StreamWriter(destinationPath))
+            {
+                while (sourceTextReader.Peek() > -1)
+                {
+                    string line =  sourceTextReader.ReadLine();
+                    destination.WriteLine(line);
+
+                    byteCount += Encoding.ASCII.GetByteCount(line);
+                }
+            }
+
+            return byteCount;
         }
 
         #endregion
