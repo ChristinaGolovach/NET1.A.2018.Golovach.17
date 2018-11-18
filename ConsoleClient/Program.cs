@@ -20,6 +20,9 @@ namespace ConsoleClient
 
             Console.WriteLine($"InMemoryByBlockCopy() done. Total bytes: {InMemoryByBlockCopy(source, destination)}");
 
+            Console.WriteLine($"BufferedCopy() done. Total bytes: {BufferedCopy(source, destination)}");
+            
+
             // Console.WriteLine(IsContentEquals(source, destination));
 
             Console.ReadLine();

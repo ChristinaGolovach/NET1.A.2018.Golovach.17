@@ -113,7 +113,6 @@ namespace StreamsDemo
 
                 using (Stream sourceStream = new FileStream(sourcePath, FileMode.Open))
                 {
-                    long length = sourceStream.Length;
                     byte[] sourceBytes = new byte[bytePortion];
 
                     while (byteCount < sourceStream.Length)
@@ -187,7 +186,36 @@ namespace StreamsDemo
 
         public static int BufferedCopy(string sourcePath, string destinationPath)
         {
-            throw new NotImplementedException();
+            InputValidation(sourcePath, destinationPath);
+
+            int bytePortion = 1024;
+            int byteCount = 0;
+            byte[] sourceBytes = new byte[bytePortion];
+            Stream destinationStream = null;
+
+            try
+            {
+                destinationStream = new FileStream(destinationPath, FileMode.Create);
+
+                using (Stream sourceStream = new FileStream(sourcePath, FileMode.Open))
+                using (BufferedStream bufferStream = new BufferedStream(sourceStream, (int)sourceStream.Length))
+                {
+                    while (byteCount < sourceStream.Length)
+                    {
+                        byteCount += bufferStream.Read(sourceBytes, 0, bytePortion - 1);
+                        destinationStream.Write(sourceBytes, 0, bytePortion - 1);
+                    }
+                }
+            }
+            finally
+            {
+                if (destinationStream != null)
+                {
+                    destinationStream.Dispose();
+                }
+            }
+
+            return byteCount;
         }
 
         #endregion
