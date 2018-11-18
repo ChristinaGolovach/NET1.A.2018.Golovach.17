@@ -102,8 +102,36 @@ namespace StreamsDemo
 
         public static int ByBlockCopy(string sourcePath, string destinationPath)
         {
+            InputValidation(sourcePath, destinationPath);
 
-            throw new NotImplementedException();
+            Stream destinationStream = null;
+            int bytePortion = 1024;
+            int byteCount = 0;
+            try
+            {
+                destinationStream = new FileStream(destinationPath, FileMode.Create);
+
+                using (Stream sourceStream = new FileStream(sourcePath, FileMode.Open))
+                {
+                    long length = sourceStream.Length;
+                    byte[] sourceBytes = new byte[bytePortion];
+
+                    while (byteCount < sourceStream.Length)
+                    {
+                        byteCount += sourceStream.Read(sourceBytes, 0, bytePortion-1);                       
+                        destinationStream.Write(sourceBytes, 0, bytePortion-1);
+                    }                
+                }
+            }
+            finally
+            {
+                if (destinationStream != null)
+                {
+                    destinationStream.Dispose();
+                }
+            }
+
+            return byteCount;
         }
 
         #endregion

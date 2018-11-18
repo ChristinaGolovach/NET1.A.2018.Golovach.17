@@ -16,6 +16,9 @@ namespace ConsoleClient
 
              Console.WriteLine($"InMemoryByteCopy() done. Total bytes: {InMemoryByByteCopy(source, destination)}");
 
+            Console.WriteLine($"ByBlockCopy() done. Total bytes: {ByBlockCopy(source, destination)}");
+
+            
             // Console.WriteLine(IsContentEquals(source, destination));
 
             Console.ReadLine();
